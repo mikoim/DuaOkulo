@@ -1,0 +1,13 @@
+[Unit]
+Description=802.11 Frame Collector
+After=network.target
+
+[Service]
+Type=simple
+User=root
+Group=root
+ExecStart=/usr/bin/python3.4 okulo.py
+WorkingDirectory=/srv/DuaOkulo
+
+[Install]
+WantedBy=multi-user.target
