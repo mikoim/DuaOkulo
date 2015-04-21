@@ -6,6 +6,7 @@ After=network.target
 Type=simple
 User=root
 Group=root
+Restart=always
 ExecStart=/usr/bin/python3.4 okulo.py
 WorkingDirectory=/srv/DuaOkulo
 
