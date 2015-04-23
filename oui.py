@@ -9,9 +9,13 @@ class OUI:
     def __init__(self):
         self.__db = sqlite3.connect('oui.db', check_same_thread=False)
         self.__lock = threading.Lock()
+        self.cache = {}
 
     def search(self, mac48: str) -> str:
         oui = ':'.join(mac48.split(':')[0:3])
+
+        if oui in self.cache:
+            return self.cache[oui]
 
         self.__lock.acquire()
 
@@ -23,9 +27,11 @@ class OUI:
         self.__lock.release()
 
         if result:
-            return result[0]
+            self.cache[oui] = result[0]
         else:
-            return 'Unknown Vendor'
+            self.cache[oui] = 'Unknown Vendor'
+
+        return self.cache[oui]
 
     def update(self):
         self.__lock.acquire()
